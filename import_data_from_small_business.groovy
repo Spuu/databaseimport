@@ -1,9 +1,9 @@
 #!/usr/bin/groovy
-@Grab(group='org.reksio.rfp.smallbusiness',module='database-import', version='1.0-SNAPSHOT')
+@Grab(group='org.reksio.rfp',module='rest', version='1.0-SNAPSHOT')
 
 import org.apache.log4j.Logger
 import org.apache.log4j.Level
-import groovy.gizmo.ImportProcess
+import org.reksio.rfp.tools.rest.processes.ImportProcess
 
 Logger logger = Logger.getRootLogger()
 logger.setLevel(Level.INFO)

@@ -1,10 +1,10 @@
-package groovy.tiara
+package org.reksio.rfp.tools.rest.tiara
 
-import groovy.gizmo.Document
-import groovy.gizmo.IValidator
-import groovy.rest.CreateProduct
-import groovy.rest.IRestApiCall
-import groovy.rest.IRestExecutor
+import org.reksio.rfp.tools.rest.api.IValidator
+import org.reksio.rfp.tools.rest.requests.CreateProduct
+import org.reksio.rfp.tools.rest.api.IRestExecutor
+import org.reksio.rfp.tools.smallbusiness.Document
+
 import org.apache.log4j.Logger
 
 /**

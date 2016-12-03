@@ -1,8 +1,9 @@
-package groovy.gizmo
+package org.reksio.rfp.tools.rest.processes
 
-import groovy.rest.RESTValidator
-import groovy.tiara.DoccyTiara
-import groovy.tiara.TiarasExecutor
+import org.reksio.rfp.tools.smallbusiness.SmallBusinessParser
+import org.reksio.rfp.tools.rest.validators.RESTValidator
+import org.reksio.rfp.tools.rest.tiara.DoccyTiara
+import org.reksio.rfp.tools.rest.tiara.TiarasExecutor
 import groovyx.net.http.RESTClient
 import org.apache.log4j.Logger
 

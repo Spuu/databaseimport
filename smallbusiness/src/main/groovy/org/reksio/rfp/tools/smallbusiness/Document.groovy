@@ -1,9 +1,9 @@
-package groovy.gizmo
+package org.reksio.rfp.tools.smallbusiness
 
 import org.apache.log4j.Logger
 
 /**
- * Small Business Document
+ * Small Business org.reksio.rfp.tools.smallbusiness.Document
  */
 class Document {
     String name

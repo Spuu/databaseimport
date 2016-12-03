@@ -1,7 +1,9 @@
-package groovy.rest
+package org.reksio.rfp.tools.rest.requests
 
-import groovy.gizmo.Document
 import groovyx.net.http.RESTClient
+import org.reksio.rfp.tools.rest.api.IRestApiCall
+import org.reksio.rfp.tools.smallbusiness.Document
+
 import static groovyx.net.http.ContentType.*
 
 /**

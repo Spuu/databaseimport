@@ -1,7 +1,4 @@
-package groovy.rest
-
-import groovy.gizmo.IValidator
-
+package org.reksio.rfp.tools.rest.api
 /**
  * Abstract callback for executing rest call
  */

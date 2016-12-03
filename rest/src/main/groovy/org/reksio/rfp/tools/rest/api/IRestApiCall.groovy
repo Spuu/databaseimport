@@ -1,4 +1,4 @@
-package groovy.rest
+package org.reksio.rfp.tools.rest.api
 
 import groovyx.net.http.RESTClient
 

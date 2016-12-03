@@ -1,4 +1,4 @@
-package groovy.gizmo
+package org.reksio.rfp.tools.smallbusiness
 
 import org.apache.log4j.Logger
 

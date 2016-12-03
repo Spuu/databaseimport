@@ -1,6 +1,6 @@
-package groovy.rest
+package org.reksio.rfp.tools.rest.validators
 
-import groovy.gizmo.IValidator
+import org.reksio.rfp.tools.rest.api.IValidator
 
 /**
  * Validate if rest call succeeded

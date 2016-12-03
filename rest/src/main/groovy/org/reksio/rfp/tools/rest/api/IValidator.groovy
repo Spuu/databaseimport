@@ -1,4 +1,4 @@
-package groovy.gizmo
+package org.reksio.rfp.tools.rest.api
 
 /**
  * Validate something

@@ -1,8 +1,8 @@
-package groovy.tiara
+package org.reksio.rfp.tools.rest.tiara
 
-import groovy.gizmo.IValidator
-import groovy.rest.IRestApiCall
-import groovy.rest.IRestExecutor
+import org.reksio.rfp.tools.rest.api.IValidator
+import org.reksio.rfp.tools.rest.api.IRestApiCall
+import org.reksio.rfp.tools.rest.api.IRestExecutor
 import groovyx.net.http.RESTClient
 
 /**
