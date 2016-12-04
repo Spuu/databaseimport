@@ -1,4 +1,4 @@
-package org.reksio.rfp.tools.smallbusiness
+package org.reksio.rfp.tools.smallbusiness.gizmo
 
 import org.apache.log4j.Logger
 
@@ -19,12 +19,13 @@ class SmallBusinessParser {
 
     SmallBusinessParser(String filename) {
         this.filename = filename
+        parse()
     }
 
     /**
      * Start parsing process which ends with filling up documents
      */
-    void parse() {
+    private void parse() {
         File file = new File(filename)
         logger.trace("Processing file: ${filename}")
 
@@ -45,7 +46,7 @@ class SmallBusinessParser {
     /**
      * Recognizes type of line and forward for further processing
      */
-    protected processLine(String line) {
+    private processLine(String line) {
         def isEmpty = line.isEmpty()
         def isDocument = (line =~ /^\[(\w+)\]$/)
         def isProperty = (line =~ /^(\w+)=(.*)$/)
@@ -61,7 +62,7 @@ class SmallBusinessParser {
     /**
      * Saves minor (position) document
      */
-    protected void saveMinorDoc() {
+    private void saveMinorDoc() {
         if(minor_doc) {
             major_doc.documents.add(minor_doc)
             minor_doc = null
@@ -71,7 +72,7 @@ class SmallBusinessParser {
     /**
      * Saves major (document) document
      */
-    protected void saveMajorDoc() {
+    private void saveMajorDoc() {
         if(major_doc) {
             documents.add(major_doc)
             major_doc = null
@@ -81,7 +82,7 @@ class SmallBusinessParser {
     /**
      * Process empty line
      */
-    protected void processEmpty() {
+    private void processEmpty() {
         logger.debug('Empty')
         saveMinorDoc()
     }
@@ -89,7 +90,7 @@ class SmallBusinessParser {
     /**
      * Process property line
      */
-    protected void processProperty(String key, String value) {
+    private void processProperty(String key, String value) {
         if(isIgnored) {
             logger.debug("Property ignored")
             return
@@ -104,7 +105,7 @@ class SmallBusinessParser {
     /**
      * Process document line
      */
-    protected void processDocument(String name) {
+    private void processDocument(String name) {
         logger.debug("Dokument: ${name}")
 
         def isPosition = (name ==~ /$POSITION/)

@@ -1,31 +1,33 @@
 package org.reksio.rfp.tools.rest.processes
 
-import org.reksio.rfp.tools.smallbusiness.SmallBusinessParser
+import org.reksio.rfp.tools.smallbusiness.gizmo.Document
 import org.reksio.rfp.tools.rest.validators.RESTValidator
-import org.reksio.rfp.tools.rest.tiara.DoccyTiara
-import org.reksio.rfp.tools.rest.tiara.TiarasExecutor
+import org.reksio.rfp.tools.rest.executors.DoccyTiara
+import org.reksio.rfp.tools.rest.executors.RESTExecutor
 import groovyx.net.http.RESTClient
 import org.apache.log4j.Logger
 
 /**
- * Whole process gathering all steps from file parsing to validate rest calls responses
+ * Calls REST for provided documents, them validate
  */
-class ImportProcess extends SmallBusinessParser {
+class ImportProcess {
 
     static final Logger logger = Logger.getLogger(ImportProcess.class)
 
-    ImportProcess(String url, String filename) {
-        super(filename)
-
-        parse()
+    ImportProcess(String url, List<Document> documents) {
 
         RESTClient client = new RESTClient(url)
-        TiarasExecutor tiarasExecutor = new TiarasExecutor(client)
+        RESTExecutor tiarasExecutor = new RESTExecutor(client)
         RESTValidator restValidator = new RESTValidator()
 
-        documents.each {
-            DoccyTiara.decides_about_(it, tiarasExecutor, restValidator)
-        }
+        StorageManager storageManager = new StorageManager(client)
+        storageManager.createStorages()
+
+        System.out.println('End of storage cration')
+
+//        documents.each {
+//            DoccyTiara.decides_about_(it, tiarasExecutor, restValidator)
+//        }
 
         def num_of_valid = restValidator.results.count {
             it == RESTValidator.Result.Success

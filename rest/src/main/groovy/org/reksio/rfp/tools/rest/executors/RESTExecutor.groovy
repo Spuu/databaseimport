@@ -1,4 +1,4 @@
-package org.reksio.rfp.tools.rest.tiara
+package org.reksio.rfp.tools.rest.executors
 
 import org.reksio.rfp.tools.rest.api.IValidator
 import org.reksio.rfp.tools.rest.api.IRestApiCall
@@ -6,13 +6,13 @@ import org.reksio.rfp.tools.rest.api.IRestExecutor
 import groovyx.net.http.RESTClient
 
 /**
- * Callback object responsible for executing rest api calls from Tiara
+ * Callback object responsible for executing rest api calls
  */
-class TiarasExecutor implements IRestExecutor {
+class RESTExecutor implements IRestExecutor {
 
     private RESTClient _client
 
-    TiarasExecutor(RESTClient client) {
+    RESTExecutor(RESTClient client) {
         _client = client
     }
 

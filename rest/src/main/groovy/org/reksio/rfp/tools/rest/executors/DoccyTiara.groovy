@@ -1,9 +1,9 @@
-package org.reksio.rfp.tools.rest.tiara
+package org.reksio.rfp.tools.rest.executors
 
 import org.reksio.rfp.tools.rest.api.IValidator
 import org.reksio.rfp.tools.rest.requests.CreateProduct
 import org.reksio.rfp.tools.rest.api.IRestExecutor
-import org.reksio.rfp.tools.smallbusiness.Document
+import org.reksio.rfp.tools.smallbusiness.gizmo.Document
 
 import org.apache.log4j.Logger
 

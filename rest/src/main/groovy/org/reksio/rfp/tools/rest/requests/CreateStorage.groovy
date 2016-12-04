@@ -3,30 +3,30 @@ package org.reksio.rfp.tools.rest.requests
 import groovyx.net.http.RESTClient
 import org.reksio.rfp.tools.rest.api.IRestApiCall
 import org.reksio.rfp.tools.smallbusiness.gizmo.Document
-import org.reksio.rfp.tools.smallbusiness.types.Product
+import org.reksio.rfp.tools.smallbusiness.types.Storage
 
 import static groovyx.net.http.ContentType.*
 
 /**
- * Create new product
- * POST: http(s)://<url>/api/product
+ * Create new Storage
+ * POST: http(s)://<url>/api/storage
  */
-class CreateProduct implements IRestApiCall {
+class CreateStorage implements IRestApiCall {
 
-    Product product
+    Storage storage
 
     /**
      * Ctor: takes document and sets props in rest call
      */
-    CreateProduct(Document doc) {
-        this.product = new Product(doc)
+    CreateStorage(Document doc) {
+        this.storage = new Storage(doc)
     }
 
     /**
-     * Ctor: takes product and sets props in rest call
+     * Ctor: takes storage and sets props in rest call
      */
-    CreateProduct(Product obj) {
-        this.product = obj
+    CreateStorage(Storage obj) {
+        this.storage = obj
     }
 
     /**
@@ -34,10 +34,9 @@ class CreateProduct implements IRestApiCall {
      */
     def call(RESTClient client) {
         return client.post(
-                path : '/api/product',
+                path : '/api/store',
                 body: [
-                        name: product.name,
-                        ean : product.symbol
+                        name: storage.name
                 ],
                 requestContentType : JSON
         )

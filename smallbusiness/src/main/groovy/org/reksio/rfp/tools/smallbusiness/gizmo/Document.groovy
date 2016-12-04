@@ -1,13 +1,13 @@
-package org.reksio.rfp.tools.smallbusiness
+package org.reksio.rfp.tools.smallbusiness.gizmo
 
 import org.apache.log4j.Logger
 
 /**
- * Small Business org.reksio.rfp.tools.smallbusiness.Document
+ * Small Business org.reksio.rfp.tools.smallbusiness.gizmo.Document
  */
 class Document {
     String name
-    def properties = [:]
+    Map<String, String> properties = [:]
     List<Document> documents = []
 
     private Logger logger = Logger.getLogger(Document.class)

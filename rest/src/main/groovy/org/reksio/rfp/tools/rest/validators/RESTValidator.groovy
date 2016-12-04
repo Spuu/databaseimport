@@ -1,5 +1,6 @@
 package org.reksio.rfp.tools.rest.validators
 
+import groovyx.net.http.HttpResponseDecorator
 import org.reksio.rfp.tools.rest.api.IValidator
 
 /**
@@ -18,7 +19,7 @@ class RESTValidator implements IValidator {
     RESTValidator() {
     }
 
-    def validate(Object something) {
+    def validate(HttpResponseDecorator something) {
         results.add(
                 something.status == 200 ?
                         Result.Success :

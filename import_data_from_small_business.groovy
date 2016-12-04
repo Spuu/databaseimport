@@ -4,6 +4,9 @@
 import org.apache.log4j.Logger
 import org.apache.log4j.Level
 import org.reksio.rfp.tools.rest.processes.ImportProcess
+import org.reksio.rfp.tools.smallbusiness.gizmo.SmallBusinessParser
+import org.reksio.rfp.tools.smallbusiness.gizmo.DocsSegregation
+import org.reksio.rfp.tools.smallbusiness.types.Rejestr
 
 Logger logger = Logger.getRootLogger()
 logger.setLevel(Level.INFO)
@@ -26,12 +29,19 @@ if(!options.arguments()) {
     return cli.usage()
 }
 
-options.arguments().each {
-    new ImportProcess(options.url, it)
-    /*logger.info("Show documents.... ${sbp.documents.size()}")
-    sbp.documents.each {
-        logger.info("${it.name}")
-        it.showProperties(['SposobPlatnosci'])
-        logger.info("Sub-docs: ${it.documents.size()}")
-    }*/
+DocsSegregation ds = new DocsSegregation()
+
+options.arguments().each { filename ->
+    SmallBusinessParser sm = new SmallBusinessParser(filename)
+    ds.add(sm.getDocuments())
+
 }
+
+new ImportProcess(options.url, ds.partition[Rejestr.MAGAZYN])
+
+/*logger.info("Show documents.... ${sbp.documents.size()}")
+sbp.documents.each {
+    logger.info("${it.name}")
+    it.showProperties(['SposobPlatnosci'])
+    logger.info("Sub-docs: ${it.documents.size()}")
+}*/
