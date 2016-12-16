@@ -5,10 +5,11 @@ package org.reksio.rfp.tools.smallbusiness.types
  */
 class Cpty {
 
-    String name, number
+    String name
+    List<String> numbers
 
-    Cpty(String number, String name) {
+    Cpty(List<String> numbers, String name) {
         this.name = name
-        this.number = number
+        this.numbers = numbers
     }
 }

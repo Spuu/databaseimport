@@ -1,5 +1,7 @@
 package org.reksio.rfp.tools.rest.executors
 
+import groovyx.net.http.HttpResponseDecorator
+import groovyx.net.http.HttpResponseException
 import org.reksio.rfp.tools.rest.api.IValidator
 import org.reksio.rfp.tools.rest.api.IRestApiCall
 import org.reksio.rfp.tools.rest.api.IRestExecutor
@@ -17,6 +19,14 @@ class RESTExecutor implements IRestExecutor {
     }
 
     def execute(IRestApiCall request, IValidator validator) {
-        validator.validate(request.call(_client))
+        HttpResponseDecorator hrp
+
+        try {
+            hrp = request.call(_client)
+        } catch (HttpResponseException ex) {
+            hrp = ex.getResponse()
+        } finally {
+            validator.validate(hrp)
+        }
     }
 }
