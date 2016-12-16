@@ -1,23 +1,26 @@
 package org.reksio.rfp.tools.rest.validators
 
 import groovyx.net.http.HttpResponseDecorator
-import org.reksio.rfp.tools.smallbusiness.types.Storage
+import org.reksio.rfp.tools.rest.types.MongoObject
 
 /**
  * Storage validator responsible for filling up _id
  */
-class StorageValidator extends RESTValidator {
+class PostIdKeeper extends RESTValidator {
 
-    Storage storage
+    private MongoObject obj
 
-    StorageValidator(Storage storage) {
-        this.storage = storage
+    PostIdKeeper() { }
+
+    def setObject(MongoObject obj) {
+        this.obj = obj
     }
 
     @Override
     def validate(HttpResponseDecorator something) {
         super.validate(something)
 
-        storage.id = something.data._id
+        if(obj)
+            obj.id = something.data?._id
     }
 }

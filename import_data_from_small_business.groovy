@@ -37,7 +37,7 @@ options.arguments().each { filename ->
 
 }
 
-new ImportProcess(options.url, ds.partition[Rejestr.MAGAZYN])
+ImportProcess.Import_to_RFP(options.url, ds)
 
 /*logger.info("Show documents.... ${sbp.documents.size()}")
 sbp.documents.each {

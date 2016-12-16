@@ -1,11 +1,12 @@
 package org.reksio.rfp.tools.rest.processes
 
-import org.reksio.rfp.tools.smallbusiness.gizmo.Document
+import org.reksio.rfp.tools.rest.validators.PostIdKeeper
+import org.reksio.rfp.tools.smallbusiness.gizmo.DocsSegregation
 import org.reksio.rfp.tools.rest.validators.RESTValidator
-import org.reksio.rfp.tools.rest.executors.DoccyTiara
 import org.reksio.rfp.tools.rest.executors.RESTExecutor
 import groovyx.net.http.RESTClient
 import org.apache.log4j.Logger
+import org.reksio.rfp.tools.smallbusiness.types.Storage
 
 /**
  * Calls REST for provided documents, them validate
@@ -14,30 +15,32 @@ class ImportProcess {
 
     static final Logger logger = Logger.getLogger(ImportProcess.class)
 
-    ImportProcess(String url, List<Document> documents) {
+    static void Import_to_RFP(String url, DocsSegregation docsSegregation) {
 
         RESTClient client = new RESTClient(url)
-        RESTExecutor tiarasExecutor = new RESTExecutor(client)
+        RESTExecutor restExecutor = new RESTExecutor(client)
         RESTValidator restValidator = new RESTValidator()
+        PostIdKeeper postIdKeeper = new PostIdKeeper()
 
-        StorageManager storageManager = new StorageManager(client)
-        storageManager.createStorages()
+        List<Storage> storages = []
+        storages << new Storage('0', 'Cz32', 'Czołgistów 32')
+        storages << new Storage('1', 'St40', 'Staromiejska 40')
+        storages << new Storage('2', 'Slow', 'Słowackiego 16')
+        storages << new Storage('3', 'St13', 'Staromiejska 13')
 
-        System.out.println('End of storage cration')
+        StorageManager storageManager = new StorageManager(restExecutor, postIdKeeper)
+        storageManager.createStorages(storages)
+
+        System.out.println('End of storage creation')
 
 //        documents.each {
 //            DoccyTiara.decides_about_(it, tiarasExecutor, restValidator)
 //        }
 
-        def num_of_valid = restValidator.results.count {
-            it == RESTValidator.Result.Success
-        }
+        logger.info(storageManager.getIdByName('Cz32'))
+        logger.info(storageManager.getIdByName('St40'))
 
-        def num_of_invalid = restValidator.results.count {
-            it == RESTValidator.Result.Failure
-        }
-
-        logger.info("Successful REST Api calls: ${num_of_valid}")
-        logger.info("Failed REST Api calls: ${num_of_invalid}")
+        logger.info("Successful REST Api calls: ${postIdKeeper.getNumberOfValid()}")
+        logger.info("Failed REST Api calls: ${postIdKeeper.getNumberOfInvalid()}")
     }
 }

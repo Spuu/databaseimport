@@ -26,4 +26,16 @@ class RESTValidator implements IValidator {
                         Result.Failure
         )
     }
+
+    Number getNumberOfValid() {
+        return results.count {
+            it == Result.Success
+        }
+    }
+
+    Number getNumberOfInvalid() {
+        return results.count {
+            it == Result.Failure
+        }
+    }
 }
