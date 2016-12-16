@@ -1,7 +1,5 @@
 package org.reksio.rfp.tools.rest.processes
 
-import groovyx.net.http.RESTClient
-import org.reksio.rfp.tools.rest.api.IValidator
 import org.reksio.rfp.tools.rest.executors.RESTExecutor
 import org.reksio.rfp.tools.rest.requests.CreateStorage
 import org.reksio.rfp.tools.rest.types.MongoObject
@@ -22,13 +20,12 @@ class StorageManager {
         this.postIdKeeper = validator
     }
 
-    void createStorages(List<Storage> store_list) {
+    void create(List<Storage> store_list) {
         store_list.each { storage ->
             MongoObject<Storage> mongoStorage = new MongoObject<>(storage)
             postIdKeeper.setObject(mongoStorage)
             restExecutor.execute(new CreateStorage(mongoStorage.obj), postIdKeeper)
             this.storages.add(mongoStorage)
-            System.out.println("Name: ${mongoStorage.obj.name}, id: ${mongoStorage.id}")
         }
     }
 

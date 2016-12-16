@@ -34,7 +34,6 @@ DocsSegregation ds = new DocsSegregation()
 options.arguments().each { filename ->
     SmallBusinessParser sm = new SmallBusinessParser(filename)
     ds.add(sm.getDocuments())
-
 }
 
 ImportProcess.Import_to_RFP(options.url, ds)

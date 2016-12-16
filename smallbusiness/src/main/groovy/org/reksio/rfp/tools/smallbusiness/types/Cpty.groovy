@@ -7,7 +7,7 @@ class Cpty {
 
     String name, number
 
-    Cpty(String number, String named) {
+    Cpty(String number, String name) {
         this.name = name
         this.number = number
     }
