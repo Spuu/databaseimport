@@ -2,11 +2,12 @@ package org.reksio.rfp.tools.rest.processes
 
 import org.reksio.rfp.tools.rest.validators.PostIdKeeper
 import org.reksio.rfp.tools.smallbusiness.gizmo.DocsSegregation
-import org.reksio.rfp.tools.rest.validators.RESTValidator
 import org.reksio.rfp.tools.rest.executors.RESTExecutor
 import groovyx.net.http.RESTClient
 import org.apache.log4j.Logger
+import org.reksio.rfp.tools.smallbusiness.gizmo.Document
 import org.reksio.rfp.tools.smallbusiness.types.Cpty
+import org.reksio.rfp.tools.smallbusiness.types.Product
 import org.reksio.rfp.tools.smallbusiness.types.Rejestr
 import org.reksio.rfp.tools.smallbusiness.types.Storage
 
@@ -21,7 +22,6 @@ class ImportProcess {
 
         RESTClient client = new RESTClient(url)
         RESTExecutor restExecutor = new RESTExecutor(client)
-        RESTValidator restValidator = new RESTValidator()
         PostIdKeeper postIdKeeper = new PostIdKeeper()
 
 
@@ -31,12 +31,29 @@ class ImportProcess {
         CptyManager cptyManager = new CptyManager(restExecutor, postIdKeeper)
         cptyManager.create(prepareCpties())
 
+        ProductManager productManager = new ProductManager(restExecutor, postIdKeeper)
+        productManager.create(
+                prepareProductsFromDocuments(
+                        docsSegregation.partition[Rejestr.MAGAZYN]))
+
 //        documents.each {
 //            DoccyTiara.decides_about_(it, tiarasExecutor, restValidator)
 //        }
 
         logger.info("Successful REST Api calls: ${postIdKeeper.getNumberOfValid()}")
         logger.info("Failed REST Api calls: ${postIdKeeper.getNumberOfInvalid()}")
+    }
+
+    private static List<Product> prepareProductsFromDocuments(List<Document> docs) {
+        List<Product> products = []
+
+        docs.each { main ->
+            main.documents.each {
+                products.add(new Product(it))
+            }
+        }
+
+        return products
     }
 
     private static List<Storage> prepareStorages() {

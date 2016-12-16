@@ -13,7 +13,7 @@ class CptyManager {
 
     RESTExecutor restExecutor
     PostIdKeeper postIdKeeper
-    List<MongoObject<Cpty>> storages = []
+    List<MongoObject<Cpty>> cpties = []
 
     CptyManager(RESTExecutor executor, PostIdKeeper validator) {
         this.restExecutor = executor
@@ -25,14 +25,14 @@ class CptyManager {
             MongoObject<Cpty> mongoCpty = new MongoObject<>(cpty)
             postIdKeeper.setObject(mongoCpty)
             restExecutor.execute(new CreateCpty(mongoCpty.obj), postIdKeeper)
-            this.storages.add(mongoCpty)
+            this.cpties.add(mongoCpty)
         }
     }
 
     String getIdByName(String name) {
-        for(store in storages) {
-            if(store.obj.name == name)
-                return store.id
+        for(cpty in cpties) {
+            if(cpty.obj.name == name)
+                return cpty.id
         }
 
         return null
