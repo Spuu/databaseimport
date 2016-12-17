@@ -8,6 +8,7 @@ import org.reksio.rfp.tools.rest.validators.PostIdKeeper
 import org.reksio.rfp.tools.smallbusiness.gizmo.Document
 import org.reksio.rfp.tools.smallbusiness.types.Cpty
 import org.reksio.rfp.tools.smallbusiness.types.Product
+import org.reksio.rfp.tools.smallbusiness.types.Rejestr
 
 /**
  * Manages products. Creates object and keep info about Mongo id
@@ -23,8 +24,11 @@ class ProductManager {
         this.postIdKeeper = validator
     }
 
-    void create(List<Product> prod_list) {
-        prod_list.each { prod ->
+    void create(List<Document> prod_list) {
+
+        List<Product> list = prepareProductsFromDocuments(prod_list)
+
+        list.each { prod ->
             MongoObject<Product> mongoProd = new MongoObject<>(prod)
             postIdKeeper.setObject(mongoProd)
             restExecutor.execute(new CreateProduct(mongoProd.obj), postIdKeeper)
@@ -39,5 +43,19 @@ class ProductManager {
         }
 
         return null
+    }
+
+    private static List<Product> prepareProductsFromDocuments(List<Document> docs) {
+        List<Product> products = []
+
+        docs.each { main ->
+            if(main.properties[Rejestr.MAGAZYN]) {
+                main.documents.each {
+                    products.add(new Product(it))
+                }
+            }
+        }
+
+        return products
     }
 }

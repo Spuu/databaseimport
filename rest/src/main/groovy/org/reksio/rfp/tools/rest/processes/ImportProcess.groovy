@@ -32,9 +32,7 @@ class ImportProcess {
         cptyManager.create(prepareCpties())
 
         ProductManager productManager = new ProductManager(restExecutor, postIdKeeper)
-        productManager.create(
-                prepareProductsFromDocuments(
-                        docsSegregation.partition[Rejestr.MAGAZYN]))
+        productManager.create(docsSegregation.partition[Rejestr.MAGAZYN])
 
 //        documents.each {
 //            DoccyTiara.decides_about_(it, tiarasExecutor, restValidator)
@@ -42,18 +40,6 @@ class ImportProcess {
 
         logger.info("Successful REST Api calls: ${postIdKeeper.getNumberOfValid()}")
         logger.info("Failed REST Api calls: ${postIdKeeper.getNumberOfInvalid()}")
-    }
-
-    private static List<Product> prepareProductsFromDocuments(List<Document> docs) {
-        List<Product> products = []
-
-        docs.each { main ->
-            main.documents.each {
-                products.add(new Product(it))
-            }
-        }
-
-        return products
     }
 
     private static List<Storage> prepareStorages() {
