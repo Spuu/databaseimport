@@ -1,5 +1,6 @@
 package org.reksio.rfp.tools.rest.processes
 
+import org.reksio.rfp.tools.rest.tmp.SqliteProductImporter
 import org.reksio.rfp.tools.rest.validators.PostIdKeeper
 import org.reksio.rfp.tools.smallbusiness.gizmo.DocsSegregation
 import org.reksio.rfp.tools.rest.executors.RESTExecutor
@@ -17,6 +18,15 @@ import org.reksio.rfp.tools.smallbusiness.types.Storage
 class ImportProcess {
 
     static final Logger logger = Logger.getLogger(ImportProcess.class)
+
+    static void Generate_EDI_Files(DocsSegregation docsSegregation) {
+        SqliteProductImporter spi = new SqliteProductImporter(
+                docsSegregation.partition[Rejestr.MAGAZYN],
+                docsSegregation.partition[Rejestr.BARKODY])
+
+        spi.execute()
+        spi.export(5562)
+    }
 
     static void Import_to_RFP(String url, DocsSegregation docsSegregation) {
 
