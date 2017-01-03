@@ -49,7 +49,7 @@ class ProductManager {
         List<Product> products = []
 
         docs.each { main ->
-            if(main.properties[Rejestr.MAGAZYN]) {
+            if(main.properties['Rejestr'] == Rejestr.MAGAZYN) {
                 main.documents.each {
                     products.add(new Product(it))
                 }

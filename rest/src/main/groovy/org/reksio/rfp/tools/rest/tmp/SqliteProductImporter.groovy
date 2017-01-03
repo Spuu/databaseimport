@@ -2,9 +2,6 @@ package org.reksio.rfp.tools.rest.tmp
 
 import org.reksio.rfp.tools.smallbusiness.gizmo.Document
 
-import java.text.DecimalFormat
-import java.text.DecimalFormatSymbols
-
 /**
  * Connect to db
  * Run query retrieving all product from Słowackiego
@@ -44,6 +41,10 @@ class SqliteProductImporter {
 
     boolean isInProducts(String ean) {
         boolean ret = false
+
+        if(!produkty)
+            return false
+
         produkty.first().documents.each { prod ->
             if(prod.properties['Symbol'] == ean)
                 ret = true
@@ -55,6 +56,10 @@ class SqliteProductImporter {
     boolean isInBarcodes(String ean) {
 
         boolean ret = false
+
+        if(!barkody)
+            return false
+
         barkody.first().documents.each { bar ->
             if(bar.properties['Barkod'] == ean)
                 ret = true

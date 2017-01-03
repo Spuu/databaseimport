@@ -20,12 +20,16 @@ class ImportProcess {
     static final Logger logger = Logger.getLogger(ImportProcess.class)
 
     static void Generate_EDI_Files(DocsSegregation docsSegregation) {
-        SqliteProductImporter spi = new SqliteProductImporter(
-                docsSegregation.partition[Rejestr.MAGAZYN],
-                docsSegregation.partition[Rejestr.BARKODY])
+        SqliteProductImporter spi = new SqliteProductImporter(null, null
+                /*docsSegregation.partition[Rejestr.MAGAZYN],
+                docsSegregation.partition[Rejestr.BARKODY]*/)
 
         spi.execute()
-        spi.export(5562)
+        spi.export(1)
+    }
+
+    static void main(String [] args) {
+        logger.info("MAIN MAIN MAIN")
     }
 
     static void Import_to_RFP(String url, DocsSegregation docsSegregation) {

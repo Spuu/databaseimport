@@ -9,7 +9,7 @@ import org.reksio.rfp.tools.smallbusiness.gizmo.DocsSegregation
 import org.reksio.rfp.tools.smallbusiness.types.Rejestr
 
 Logger logger = Logger.getRootLogger()
-logger.setLevel(Level.INFO)
+logger.setLevel(Level.TRACE)
 
 /**
  * Parse arguments and parameters
@@ -36,8 +36,8 @@ options.arguments().each { filename ->
     ds.add(sm.getDocuments())
 }
 
-//ImportProcess.Import_to_RFP(options.url, ds)
-ImportProcess.Generate_EDI_Files(ds)
+ImportProcess.Import_to_RFP(options.url, ds)
+//ImportProcess.Generate_EDI_Files(ds)
 
 /*logger.info("Show documents.... ${sbp.documents.size()}")
 sbp.documents.each {
