@@ -1,32 +1,33 @@
-#!/usr/bin/groovy
-@Grab(group='org.reksio.rfp',module='rest', version='1.0-SNAPSHOT')
+package org.reksio.rfp.tools.rest
 
-import org.apache.log4j.Logger
-import org.apache.log4j.Level
 import org.reksio.rfp.tools.rest.processes.ImportProcess
-import org.reksio.rfp.tools.smallbusiness.gizmo.SmallBusinessParser
 import org.reksio.rfp.tools.smallbusiness.gizmo.DocsSegregation
-import org.reksio.rfp.tools.smallbusiness.types.Rejestr
-
-Logger logger = Logger.getRootLogger()
-logger.setLevel(Level.TRACE)
+import org.reksio.rfp.tools.smallbusiness.gizmo.SmallBusinessParser
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
- * Parse arguments and parameters
+ * Starting point of application.
+ * Replace for groovy script.
  */
+
+final Logger logger = LoggerFactory.getLogger("ImportDirector")
+
 def cli = new CliBuilder(usage: 'import_data_from_small_business <url> [files]')
 cli.d('Debug logs')
-cli._(longOpt:'url', args:1, argName:'URL', 'Set back-end URL')
+cli._(longOpt: 'url', args: 1, argName: 'URL', 'Set back-end URL')
 def options = cli.parse(args)
 
-if(!options.url) {
+if (!options.url) {
     logger.error("No url provided...")
-    return cli.usage()
+    cli.usage()
+    return
 }
 
-if(!options.arguments()) {
+if (!options.arguments()) {
     logger.error("No import files provided..")
-    return cli.usage()
+    cli.usage()
+    return
 }
 
 DocsSegregation ds = new DocsSegregation()

@@ -1,6 +1,7 @@
 package org.reksio.rfp.tools.smallbusiness.gizmo
 
-import org.apache.log4j.Logger
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * Parse Small Business export file into document container
@@ -13,7 +14,7 @@ class SmallBusinessParser {
     protected Document major_doc, minor_doc
     protected String filename
     protected boolean isIgnored
-    protected Logger logger = Logger.getLogger(SmallBusinessParser.class)
+    protected Logger logger = LoggerFactory.getLogger(SmallBusinessParser.class)
 
     List<Document> documents = []
 

@@ -63,19 +63,23 @@
             <artifactId>groovy-eclipse-batch</artifactId>
             <version>2.4.3-01</version>
         </dependency>
-        <!-- for groovy scripts execution using Grape -->
-        <dependency>
-            <groupId>plexus</groupId>
-            <artifactId>plexus-utils</artifactId>
-            <version>1.0.2</version>
-        </dependency>
         <!-- for REST client -->
         <dependency>
             <groupId>org.codehaus.groovy.modules.http-builder</groupId>
             <artifactId>http-builder</artifactId>
             <version>0.7.1</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.22</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.22</version>
+        </dependency>
     </dependencies>
 
 </project>
