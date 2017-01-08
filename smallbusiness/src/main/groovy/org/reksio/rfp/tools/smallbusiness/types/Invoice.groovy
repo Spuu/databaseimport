@@ -2,6 +2,7 @@ package org.reksio.rfp.tools.smallbusiness.types
 
 import org.reksio.rfp.tools.smallbusiness.gizmo.Document
 
+import java.lang.ref.Reference
 import java.text.SimpleDateFormat
 
 /**
@@ -13,6 +14,7 @@ class Invoice {
     String docNum, docId
     String cptyNum, cptyName, cptyId
     String storageId
+    String type
 
     Invoice(Document doc) {
         SimpleDateFormat inputFormat = new SimpleDateFormat("yy.MM.dd")
@@ -24,6 +26,7 @@ class Invoice {
         cptyName = doc.properties['NazwaKontrahenta'] ?: Undefined.NONE
         cptyId = doc.properties['SymbolKontrahenta'] ?: Undefined.NONE
         storageId = doc.properties['Magazyny'].split(',').first() ?: Undefined.NONE
+        type = doc.properties[Rejestr.REJESTR]
     }
 
     String getDate() {

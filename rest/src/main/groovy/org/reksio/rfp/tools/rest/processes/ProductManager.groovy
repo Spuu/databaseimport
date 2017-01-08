@@ -2,6 +2,7 @@ package org.reksio.rfp.tools.rest.processes
 
 import org.reksio.rfp.tools.rest.executors.RESTExecutor
 import org.reksio.rfp.tools.rest.requests.CreateProduct
+import org.reksio.rfp.tools.rest.types.MongoObject
 import org.reksio.rfp.tools.rest.validators.PostIdKeeper
 import org.reksio.rfp.tools.smallbusiness.gizmo.Document
 import org.reksio.rfp.tools.smallbusiness.types.Product
@@ -13,6 +14,8 @@ import org.reksio.rfp.tools.smallbusiness.types.Rejestr
 class ProductManager extends MongoObjectManager<Product> {
 
     private static ProductManager instance
+
+    Map<String, MongoObject<Product>> inserted = [:]
 
     private ProductManager(RESTExecutor executor, PostIdKeeper validator) {
         super(executor, validator, CreateProduct.class)
@@ -27,9 +30,16 @@ class ProductManager extends MongoObjectManager<Product> {
     }
 
     void create(List<Document> list) {
-        list.each { main ->
+
+        List<Document> filtered = list.each { main ->
             if (main.properties[Rejestr.REJESTR] == Rejestr.MAGAZYN) {
-                super.create(main.documents, Product.class)
+                main.documents.each { prod ->
+                    if (!inserted.containsKey(prod.properties['Symbol'])) {
+                        MongoObject<Product> mProduct = super.create(prod, Product.class)
+                        if (mProduct.id)
+                            inserted.put(mProduct.obj.symbol, mProduct)
+                    }
+                }
             }
         }
     }

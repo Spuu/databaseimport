@@ -29,7 +29,7 @@ class InvoiceManager extends MongoObjectManager<Invoice> {
     void create(List<Document> list) {
         list.each { main ->
             if (main.properties[Rejestr.REJESTR] in [Rejestr.FAKTURY_ZAK]) {
-                super.create(main.documents, Invoice.class)
+                super.create(main, Invoice.class)
             }
         }
     }

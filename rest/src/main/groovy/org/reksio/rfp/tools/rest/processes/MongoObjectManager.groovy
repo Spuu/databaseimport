@@ -24,12 +24,11 @@ class MongoObjectManager<T> {
         this.apiCallClass = apiCallClass
     }
 
-    void create(List<Document> list, Class<T> typeClass) {
-        list.each { elem ->
-            MongoObject<T> mongoStorage = new MongoObject<>(elem, typeClass)
-            postIdKeeper.setObject(mongoStorage)
-            restExecutor.execute((IRestApiCall)apiCallClass.newInstance(elem), postIdKeeper)
-            objects.add(mongoStorage)
-        }
+    MongoObject<T> create(Document doc, Class<T> typeClass) {
+        MongoObject<T> mongoObj = new MongoObject<>(doc, typeClass)
+        postIdKeeper.setObject(mongoObj)
+        restExecutor.execute((IRestApiCall) apiCallClass.newInstance(doc), postIdKeeper)
+        objects.add(mongoObj)
+        return mongoObj
     }
 }

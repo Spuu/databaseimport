@@ -6,8 +6,6 @@ import org.reksio.rfp.tools.rest.processes.CptyManager
 import org.reksio.rfp.tools.rest.processes.StorageManager
 import org.reksio.rfp.tools.smallbusiness.gizmo.Document
 import org.reksio.rfp.tools.smallbusiness.types.Invoice
-import org.reksio.rfp.tools.smallbusiness.types.Product
-import org.reksio.rfp.tools.smallbusiness.types.Rejestr
 
 import static groovyx.net.http.ContentType.JSON
 
@@ -17,7 +15,7 @@ import static groovyx.net.http.ContentType.JSON
  */
 class CreateInvoice implements IRestApiCall {
 
-    Map typ = [ 'FakturyZak' : 'Buy',
+    Map type = [ 'FakturyZak' : 'Buy',
                 'FakturySpr' : 'Sell']
 
     Invoice invoice
@@ -47,7 +45,7 @@ class CreateInvoice implements IRestApiCall {
                         name: invoice.getDocNum(),
                         _store: StorageManager.getInstance().getIdFromNum(invoice.getStorageId()),
                         document_date: invoice.getDate(),
-                        type: typ[invoice.properties[Rejestr.REJESTR]]
+                        type: type[invoice.getType()]
                 ],
                 requestContentType : JSON
         )
