@@ -2,6 +2,7 @@ package org.reksio.rfp.tools.rest.processes
 
 import org.reksio.rfp.tools.rest.executors.RESTExecutor
 import org.reksio.rfp.tools.rest.requests.CreateInvoice
+import org.reksio.rfp.tools.rest.types.MongoObject
 import org.reksio.rfp.tools.rest.validators.PostIdKeeper
 import org.reksio.rfp.tools.smallbusiness.gizmo.Document
 import org.reksio.rfp.tools.smallbusiness.types.Invoice
@@ -28,8 +29,13 @@ class InvoiceManager extends MongoObjectManager<Invoice> {
 
     void create(List<Document> list) {
         list.each { main ->
-            if (main.properties[Rejestr.REJESTR] in [Rejestr.FAKTURY_ZAK]) {
-                super.create(main, Invoice.class)
+            if (main.properties[Rejestr.REJESTR] in [Rejestr.FAKTURY_ZAK, Rejestr.FAKTURY_SPR]) {
+                MongoObject<Invoice> mInvoice = super.create(main, Invoice.class)
+
+                if (mInvoice.id) {
+                    PositionManager.getInstance().
+                            create(mInvoice, main.documents)
+                }
             }
         }
     }

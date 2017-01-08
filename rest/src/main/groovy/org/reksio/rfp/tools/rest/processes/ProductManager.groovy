@@ -29,6 +29,10 @@ class ProductManager extends MongoObjectManager<Product> {
         return instance
     }
 
+    static ProductManager getInstance() {
+        return instance
+    }
+
     void create(List<Document> list) {
 
         List<Document> filtered = list.each { main ->
@@ -45,11 +49,22 @@ class ProductManager extends MongoObjectManager<Product> {
     }
 
     String getIdByEan(String ean) {
-        for(prod in products) {
+        for(prod in objects) {
             if(prod.obj.symbol == ean)
                 return prod.id
         }
 
+        return null
+    }
+
+    String getIdByName(String name) {
+        for(prod in objects) {
+            if(prod.obj.name == name) {
+                System.out.println("Found by name ${name}")
+                return prod.id
+            }
+        }
+        System.out.println("Not Found: ${name}")
         return null
     }
 }

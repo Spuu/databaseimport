@@ -7,11 +7,19 @@ import org.reksio.rfp.tools.smallbusiness.gizmo.Document
  */
 class Position extends Product {
 
+    String invoiceId
+    String storeId
+    String idx
+
     Position(Document doc) {
         super(doc)
         buyNettoPrice = doc.properties['CenaNetto'] ?: Undefined.NONE
         buyBruttoPrice = doc.properties['CenaBrutto'] ?: Undefined.NONE
         sellVat = buyVat
+
+        invoiceId = doc.properties['invoiceId'] ?: Undefined.NONE
+        storeId = doc.properties['storeId'] ?: Undefined.NONE
+        idx = doc.properties['idx'] ?: Undefined.NONE
     }
 
     /*

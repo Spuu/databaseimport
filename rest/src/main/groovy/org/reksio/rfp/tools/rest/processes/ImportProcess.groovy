@@ -49,8 +49,11 @@ class ImportProcess {
         ProductManager.getInstance(restExecutor, postIdKeeper).
                 create(docsSegregation.partition[Rejestr.MAGAZYN])
 
+        PositionManager.getInstance(restExecutor, postIdKeeper)
+
         InvoiceManager.getInstance(restExecutor, postIdKeeper).
-                create(docsSegregation.partition[Rejestr.FAKTURY_ZAK])
+                create(docsSegregation.partition[Rejestr.FAKTURY_ZAK] +
+                        docsSegregation.partition[Rejestr.FAKTURY_SPR])
 
 //        documents.each {
 //            DoccyTiara.decides_about_(it, tiarasExecutor, restValidator)
