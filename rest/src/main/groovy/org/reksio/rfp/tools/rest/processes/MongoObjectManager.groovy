@@ -5,6 +5,7 @@ import org.reksio.rfp.tools.rest.executors.RESTExecutor
 import org.reksio.rfp.tools.rest.requests.CreateStorage
 import org.reksio.rfp.tools.rest.types.MongoObject
 import org.reksio.rfp.tools.rest.validators.PostIdKeeper
+import org.reksio.rfp.tools.smallbusiness.gizmo.Document
 import org.reksio.rfp.tools.smallbusiness.types.Storage
 
 /**
@@ -15,7 +16,7 @@ class MongoObjectManager<T> {
     RESTExecutor restExecutor
     PostIdKeeper postIdKeeper
     Class<IRestApiCall> apiCallClass
-    List<MongoObject<T>> storages = []
+    List<MongoObject<T>> objects = []
 
     MongoObjectManager(RESTExecutor executor, PostIdKeeper validator, Class<IRestApiCall> apiCallClass) {
         this.restExecutor = executor
@@ -23,21 +24,12 @@ class MongoObjectManager<T> {
         this.apiCallClass = apiCallClass
     }
 
-    void create(List<T> store_list) {
-        store_list.each { storage ->
-            MongoObject<T> mongoStorage = new MongoObject<>(storage)
+    void create(List<Document> list, Class<T> typeClass) {
+        list.each { elem ->
+            MongoObject<T> mongoStorage = new MongoObject<>(elem, typeClass)
             postIdKeeper.setObject(mongoStorage)
-            restExecutor.execute((IRestApiCall)apiCallClass.newInstance(storage), postIdKeeper)
-            this.storages.add(mongoStorage)
+            restExecutor.execute((IRestApiCall)apiCallClass.newInstance(elem), postIdKeeper)
+            objects.add(mongoStorage)
         }
-    }
-
-    String getIdByName(String name) {
-        for(store in storages) {
-            if(store.obj.name == name)
-                return store.id
-        }
-
-        return null
     }
 }

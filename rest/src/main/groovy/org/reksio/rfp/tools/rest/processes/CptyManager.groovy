@@ -1,5 +1,6 @@
 package org.reksio.rfp.tools.rest.processes
 
+import org.reksio.rfp.tools.rest.api.IRestApiCall
 import org.reksio.rfp.tools.rest.executors.RESTExecutor
 import org.reksio.rfp.tools.rest.requests.CreateCpty
 import org.reksio.rfp.tools.rest.types.MongoObject
@@ -9,32 +10,42 @@ import org.reksio.rfp.tools.smallbusiness.types.Cpty
 /**
  * Manages cpty. Creates object and keep info about Mongo id
  */
-class CptyManager {
+class CptyManager extends MongoObjectManager<Cpty> {
 
-    RESTExecutor restExecutor
-    PostIdKeeper postIdKeeper
-    List<MongoObject<Cpty>> cpties = []
+    private static CptyManager instance
 
-    CptyManager(RESTExecutor executor, PostIdKeeper validator) {
-        this.restExecutor = executor
-        this.postIdKeeper = validator
+    private CptyManager(RESTExecutor executor, PostIdKeeper validator) {
+        super(executor, validator, CreateCpty.class)
     }
 
-    void create(List<Cpty> cpty_list) {
-        cpty_list.each { cpty ->
-            MongoObject<Cpty> mongoCpty = new MongoObject<>(cpty)
-            postIdKeeper.setObject(mongoCpty)
-            restExecutor.execute(new CreateCpty(mongoCpty.obj), postIdKeeper)
-            this.cpties.add(mongoCpty)
+    static CptyManager getInstance(RESTExecutor executor, PostIdKeeper validator) {
+        if (instance)
+            return instance
+
+        instance = new CptyManager(executor, validator)
+        return instance
+    }
+
+    static CptyManager getInstance() {
+        return instance
+    }
+
+    void create(List<Cpty> list) {
+        list.each { elem ->
+            MongoObject<Cpty> mongoStorage = new MongoObject<>(elem)
+            postIdKeeper.setObject(mongoStorage)
+            restExecutor.execute((IRestApiCall)apiCallClass.newInstance(elem), postIdKeeper)
+            objects.add(mongoStorage)
         }
     }
 
-    String getIdByName(String name) {
-        for(cpty in cpties) {
-            if(cpty.obj.name == name)
+    String getIdFromNum(String num) {
+        for(cpty in objects) {
+            if(num in cpty.obj.numbers) {
                 return cpty.id
+            }
         }
-
+        System.out.println("Looking for ${num}, but didn't found.")
         return null
     }
 }

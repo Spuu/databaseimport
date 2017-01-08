@@ -6,9 +6,8 @@ import org.reksio.rfp.tools.smallbusiness.gizmo.DocsSegregation
 import org.reksio.rfp.tools.rest.executors.RESTExecutor
 import groovyx.net.http.RESTClient
 import org.apache.log4j.Logger
-import org.reksio.rfp.tools.smallbusiness.gizmo.Document
 import org.reksio.rfp.tools.smallbusiness.types.Cpty
-import org.reksio.rfp.tools.smallbusiness.types.Product
+import org.reksio.rfp.tools.smallbusiness.types.Invoice
 import org.reksio.rfp.tools.smallbusiness.types.Rejestr
 import org.reksio.rfp.tools.smallbusiness.types.Storage
 
@@ -39,14 +38,19 @@ class ImportProcess {
         PostIdKeeper postIdKeeper = new PostIdKeeper()
 
 
-        StorageManager storageManager = new StorageManager(restExecutor, postIdKeeper)
-        storageManager.create(prepareStorages())
+        StorageManager.
+                getInstance(restExecutor, postIdKeeper)
+                .create(prepareStorages())
 
-        CptyManager cptyManager = new CptyManager(restExecutor, postIdKeeper)
-        cptyManager.create(prepareCpties())
+        CptyManager.
+                getInstance(restExecutor, postIdKeeper)
+                .create(prepareCpties())
 
-        ProductManager productManager = new ProductManager(restExecutor, postIdKeeper)
-        productManager.create(docsSegregation.partition[Rejestr.MAGAZYN])
+        //ProductManager.getInstance(restExecutor, postIdKeeper).
+        //        create(docsSegregation.partition[Rejestr.MAGAZYN])
+
+        InvoiceManager.getInstance(restExecutor, postIdKeeper).
+                create(docsSegregation.partition[Rejestr.FAKTURY_ZAK], Invoice.class)
 
 //        documents.each {
 //            DoccyTiara.decides_about_(it, tiarasExecutor, restValidator)

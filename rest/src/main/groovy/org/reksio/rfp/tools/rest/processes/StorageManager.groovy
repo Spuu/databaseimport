@@ -1,5 +1,6 @@
 package org.reksio.rfp.tools.rest.processes
 
+import org.reksio.rfp.tools.rest.api.IRestApiCall
 import org.reksio.rfp.tools.rest.executors.RESTExecutor
 import org.reksio.rfp.tools.rest.requests.CreateStorage
 import org.reksio.rfp.tools.rest.types.MongoObject
@@ -9,32 +10,42 @@ import org.reksio.rfp.tools.smallbusiness.types.Storage
 /**
  * Manages storages. Creates object and keep info about Mongo id
  */
-class StorageManager {
+class StorageManager extends MongoObjectManager<Storage> {
 
-    RESTExecutor restExecutor
-    PostIdKeeper postIdKeeper
-    List<MongoObject<Storage>> storages = []
+    private static StorageManager instance
 
-    StorageManager(RESTExecutor executor, PostIdKeeper validator) {
-        this.restExecutor = executor
-        this.postIdKeeper = validator
+    private StorageManager(RESTExecutor executor, PostIdKeeper validator) {
+        super(executor, validator, CreateStorage.class)
     }
 
-    void create(List<Storage> store_list) {
-        store_list.each { storage ->
-            MongoObject<Storage> mongoStorage = new MongoObject<>(storage)
+    static StorageManager getInstance(RESTExecutor executor, PostIdKeeper validator) {
+        if (instance)
+            return instance
+
+        instance = new StorageManager(executor, validator)
+        return instance
+    }
+
+    static StorageManager getInstance() {
+        return instance
+    }
+
+    void create(List<Storage> list) {
+        list.each { elem ->
+            MongoObject<Storage> mongoStorage = new MongoObject<>(elem)
             postIdKeeper.setObject(mongoStorage)
-            restExecutor.execute(new CreateStorage(mongoStorage.obj), postIdKeeper)
-            this.storages.add(mongoStorage)
+            restExecutor.execute((IRestApiCall)apiCallClass.newInstance(elem), postIdKeeper)
+            objects.add(mongoStorage)
         }
     }
 
-    String getIdByName(String name) {
-        for(store in storages) {
-            if(store.obj.name == name)
+    String getIdFromNum(String num) {
+        for(store in objects) {
+            if(store.obj.number == num) {
                 return store.id
+            }
         }
-
+        System.out.println("Looking for ${num}, but didn't found")
         return null
     }
 }

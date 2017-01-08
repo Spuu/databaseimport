@@ -4,6 +4,7 @@ package org.reksio.rfp.tools.smallbusiness.types;
  * Rejestr literas container
  */
 class Rejestr {
+    public static String REJESTR = "Rejestr"
     public static String BARKODY = "Barkody"
     public static String MAGAZYN = "Magazyn"
     public static String FAKTURY_SPR = "FakturySpr"
